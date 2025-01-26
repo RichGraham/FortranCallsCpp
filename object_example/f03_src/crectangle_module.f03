@@ -9,7 +9,7 @@ module CRectangle_module
       private
       !================Public Interface================================
       procedure, public :: init => CRectangle_init
-      procedure, public :: area => CRectangle_area
+      procedure, public :: area => CRectangle__area
       !================================================================
   end type CRectangle_type
 
@@ -47,13 +47,15 @@ contains
     integer :: a,b
     this%object = C_CRectangle__new(int(a,C_int),int(b,C_int))
   end subroutine CRectangle__new
+
   subroutine CRectangle__delete(this)
     type(CRectangle_type), intent(inout) :: this
     call C_CRectangle__delete(this%object)
     this%object = C_NULL_ptr
   end subroutine CRectangle__delete
+
   function CRectangle__area(this) result(area)
-    type(CRectangle_type), intent(in) :: this
+    class(CRectangle_type), intent(in) :: this
     integer :: area
     area = C_CRectangle__area(this%object)
   end function CRectangle__area
@@ -64,11 +66,4 @@ contains
     call new(self, length, width)
   end subroutine CRectangle_init
 
-
-  function CRectangle_area(self) result(area_result)
-    class(CRectangle_type) :: self
-    integer:: area_result
-
-    area_result = area(self)
-  end function CRectangle_area
 end module CRectangle_module
