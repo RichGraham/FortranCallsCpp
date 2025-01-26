@@ -3,9 +3,16 @@ module CRectangle_module
   implicit none
   private
   type CRectangle_type
-    private
-    type(C_ptr) :: object = C_NULL_ptr
+      private
+      type(C_ptr) :: object = C_NULL_ptr
+    contains
+      private
+      !================Public Interface================================
+      procedure, public :: init => CRectangle_init
+      procedure, public :: area => CRectangle_area
+      !================================================================
   end type CRectangle_type
+
   interface
     function C_CRectangle__new (a, b) result(this) bind(C,name="CRectangle__new")
       import
@@ -31,7 +38,8 @@ module CRectangle_module
   interface area
     module procedure CRectangle__area
   end interface area
-  public :: new, delete, area, CRectangle_type
+  public ::  CRectangle_type
+  private :: area, new, delete
 contains
 ! Fortran wrapper routines to interface C wrappers
   subroutine CRectangle__new(this,a,b)
@@ -49,4 +57,18 @@ contains
     integer :: area
     area = C_CRectangle__area(this%object)
   end function CRectangle__area
+
+  subroutine CRectangle_init(self, length, width)
+    class(CRectangle_type) :: self
+    integer:: length, width
+    call new(self, length, width)
+  end subroutine CRectangle_init
+
+
+  function CRectangle_area(self) result(area_result)
+    class(CRectangle_type) :: self
+    integer:: area_result
+
+    area_result = area(self)
+  end function CRectangle_area
 end module CRectangle_module
