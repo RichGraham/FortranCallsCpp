@@ -14,7 +14,7 @@ $(NAME): $(OFILES)
 
 clean:
 	rm -f $(OFILES)
-	rm $(NAME)
+	rm -f $(NAME)
 
 fclean:
 	clean rm -f $(NAME)

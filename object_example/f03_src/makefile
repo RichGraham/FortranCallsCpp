@@ -2,6 +2,7 @@ SRCS = crectangle_module.f03
 FC := gfortran
 
 OFILES = $(SRCS:.f03=.o)
+MODFILES = $(SRCS:.f03=.mod)
 
 NAME = libfrectangle.a
 
@@ -18,5 +19,6 @@ $(NAME): $(OFILES)
 
 clean:
 	rm -f $(OFILES)
-	rm $(NAME)
+	rm -f $(MODFILES)
+	rm -f $(NAME)
 

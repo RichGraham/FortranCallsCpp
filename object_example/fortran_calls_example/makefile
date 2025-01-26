@@ -12,7 +12,7 @@ FC = gfortran
 FCFLAGS =  -I../f03_src -O2 -c -cpp
 #FCFLAGS = -O2  -c -cpp    -fcheck=bounds #-fmax-errors=5
 FLFLAGS =  -L../f03_src -lfrectangle -L../c++_src -lcrectangle -lstdc++
-PROGRAM = fortran_calls.out
+PROGRAM = fortran.out
 PRG_OBJ = $(PROGRAM).o
 
 # make without parameters will make first target found.
@@ -48,8 +48,7 @@ debug:
 clean:
 	$(RM) *.o *.mod *.a  *.inc
 	$(RM) $(PROGRAM)
-	$(MAKE) -C src clean
-	$(MAKE) -C tests clean
+	$(MAKE) -C ../f03_src clean
 
 .PHONY: debug default clean
 

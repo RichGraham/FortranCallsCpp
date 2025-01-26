@@ -7,12 +7,17 @@ CFLAGS = -L../c++_src -lcrectangle
 
 NAME = calls.out
 
-all: $(NAME)
+all :
+	$(MAKE) -C ../c++_src
+	$(MAKE) self
+
+self : $(NAME)
 
 $(NAME): $(OFILES)
 	$(CC) -o $(NAME) $(OFILES) $(CFLAGS)
 
 clean:
+	$(MAKE) -C ../c++_src clean
 	rm -f $(OFILES)
 	rm $(NAME)
 
