@@ -8,17 +8,17 @@ module CRectangle_module
     contains
       private
       !================Public Interface================================
-      procedure, public :: init => CRectangle_init
+      procedure, public :: init => CRectangle__init
       procedure, public :: area => CRectangle__area
       !================================================================
   end type CRectangle_type
 
   interface
-    function C_CRectangle__new (a, b) result(this) bind(C,name="CRectangle__new")
+    function C_CRectangle__init (a, b) result(this) bind(C,name="CRectangle__new")
       import
       type(C_ptr) :: this
       integer(C_int), value :: a, b
-    end function C_CRectangle__new
+    end function C_CRectangle__init
     subroutine C_CRectangle__delete (this) bind(C,name="CRectangle__delete")
       import
       type(C_ptr), value :: this
@@ -29,9 +29,9 @@ module CRectangle_module
       type(C_ptr), value :: this
     end function C_CRectangle__area
   end interface
-  interface new
-    module procedure CRectangle__new
-  end interface new
+  interface init
+    module procedure CRectangle__init
+  end interface init
   interface delete
     module procedure CRectangle__delete
   end interface delete
@@ -39,14 +39,14 @@ module CRectangle_module
     module procedure CRectangle__area
   end interface area
   public ::  CRectangle_type
-  private :: area, new, delete
+  private :: area, init, delete
 contains
 ! Fortran wrapper routines to interface C wrappers
-  subroutine CRectangle__new(this,a,b)
-    type(CRectangle_type), intent(out) :: this
+  subroutine CRectangle__init(this,a,b)
+    class(CRectangle_type), intent(out) :: this
     integer :: a,b
-    this%object = C_CRectangle__new(int(a,C_int),int(b,C_int))
-  end subroutine CRectangle__new
+    this%object = C_CRectangle__init(int(a,C_int),int(b,C_int))
+  end subroutine CRectangle__init
 
   subroutine CRectangle__delete(this)
     type(CRectangle_type), intent(inout) :: this
@@ -59,11 +59,5 @@ contains
     integer :: area
     area = C_CRectangle__area(this%object)
   end function CRectangle__area
-
-  subroutine CRectangle_init(self, length, width)
-    class(CRectangle_type) :: self
-    integer:: length, width
-    call new(self, length, width)
-  end subroutine CRectangle_init
 
 end module CRectangle_module
