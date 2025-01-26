@@ -10,7 +10,6 @@ MOD_OBJS=$(patsubst %.f03,%.o,$(MODS))
 # Compiler/Linker settings
 FC = gfortran
 FCFLAGS =  -I../f03_src -O2 -c -cpp
-#FCFLAGS = -O2  -c -cpp    -fcheck=bounds #-fmax-errors=5
 FLFLAGS =  -L../f03_src -lfrectangle -L../c++_src -lcrectangle -lstdc++
 PROGRAM = fortran.out
 PRG_OBJ = $(PROGRAM).o
@@ -18,6 +17,8 @@ PRG_OBJ = $(PROGRAM).o
 # make without parameters will make first target found.
 
 default:
+	$(MAKE) -C ../c++_src
+	$(MAKE) -C ../f03_src
 	$(MAKE) programme
 
 programme :$(PROGRAM)

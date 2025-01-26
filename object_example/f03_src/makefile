@@ -18,6 +18,7 @@ $(NAME): $(OFILES)
 	$(FC) -c $(FCFLAGS)  $< -o $@
 
 clean:
+	$(MAKE) -C ../c++_src clean
 	rm -f $(OFILES)
 	rm -f $(MODFILES)
 	rm -f $(NAME)
