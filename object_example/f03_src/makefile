@@ -8,11 +8,14 @@ NAME = libfrectangle.a
 
 FCFLAGS = -L../c++_src -lcrectangle -lstdc++
 
-all: $(NAME)
+default:
+	$(MAKE) -C ../c++_src
+	$(MAKE) self
+
+self: $(NAME)
 
 $(NAME): $(OFILES)
 	$(AR) $(FLFLAGS) -r $@ $?
-# $(FC) -o $(NAME) $(OFILES) -L../c++_src -lcrectangle -lstdc++
 
 %.mod %.o : %.f03
 	$(FC) -c $(FCFLAGS)  $< -o $@
@@ -22,4 +25,3 @@ clean:
 	rm -f $(OFILES)
 	rm -f $(MODFILES)
 	rm -f $(NAME)
-
