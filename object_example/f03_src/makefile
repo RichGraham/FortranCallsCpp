@@ -1,18 +1,20 @@
 SRCS = crectangle_module.f03
+FC := gfortran
 
 OFILES = $(SRCS:.f03=.o)
 
-FC = gfortran
+NAME = libfrectangle.a
 
-NAME = test.out
+FCFLAGS = -L../c++_src -lcrectangle -lstdc++
 
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	$(FC) -o $(NAME) $(OFILES) -L../c++_src -lcrectangle -lstdc++
+	$(AR) $(FLFLAGS) -r $@ $?
+# $(FC) -o $(NAME) $(OFILES) -L../c++_src -lcrectangle -lstdc++
 
 %.mod %.o : %.f03
-	$(FC) -c   $< -o $@
+	$(FC) -c $(FCFLAGS)  $< -o $@
 
 clean:
 	rm -f $(OFILES)
